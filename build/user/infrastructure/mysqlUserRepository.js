@@ -33,6 +33,10 @@ class MysqlUserRepository {
     create(uuid, name, lastname, credentials) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const existingUser = yield this.findByEmail(credentials.email);
+                if (existingUser) {
+                    throw new Error("There's already an account with these email.");
+                }
                 const sql = "INSERT INTO users (uuid, name, lastname, email, password) VALUES (?,?,?,?,?)";
                 const params = [uuid, name, lastname, credentials.email, credentials.password];
                 const [result] = yield (0, mysql_1.query)(sql, params);
@@ -44,7 +48,6 @@ class MysqlUserRepository {
             }
         });
     }
-    //TODO: CHANGE DELETE TO RETURN BOOL IN ORDER TO SUCCESS
     delete(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -104,6 +107,34 @@ class MysqlUserRepository {
             }
             catch (e) {
                 console.log(e);
+                return null;
+            }
+        });
+    }
+    findByEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sql = `SELECT * FROM users WHERE email = ? AND deleted_at IS NULL`;
+                const params = [email];
+                const [result] = yield (0, mysql_1.query)(sql, params);
+                let credentials = new credentials_1.Credentials(result[0].email, result[0].password);
+                return new user_1.User(result[0].uuid, result[0].name, result[0].lastname, credentials, null);
+            }
+            catch (e) {
+                return null;
+            }
+        });
+    }
+    findByUUID(uuid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sql = `SELECT * FROM users WHERE uuid = ? AND deleted_at IS NULL`;
+                const params = [uuid];
+                const [result] = yield (0, mysql_1.query)(sql, params);
+                let credentials = new credentials_1.Credentials(result[0].email, result[0].password);
+                return new user_1.User(result[0].uuid, result[0].name, result[0].lastname, credentials, null);
+            }
+            catch (e) {
                 return null;
             }
         });

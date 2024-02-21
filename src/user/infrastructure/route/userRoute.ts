@@ -1,4 +1,5 @@
 import express from "express";
+import {authenticateMiddleware} from "../../../middleware/authenticator";
 import {
     createUserController,
     deleteUserController,
@@ -10,8 +11,10 @@ import {
 export const userRoute = express.Router();
 
 
-userRoute.get("/:uuid", getUserController.run.bind(getUserController))
 userRoute.post("/login", loginUserController.run.bind(loginUserController))
 userRoute.post("/", createUserController.run.bind(createUserController))
-userRoute.put("/:uuid", updateUserController.run.bind(updateUserController))
-userRoute.delete("/:uuid", deleteUserController.run.bind(deleteUserController))
+
+//TODO: ADD JWT AUTHENTICATION WITH MIDDLEWARE
+userRoute.get("/:uuid",authenticateMiddleware, getUserController.run.bind(getUserController))
+userRoute.put("/:uuid",authenticateMiddleware, updateUserController.run.bind(updateUserController))
+userRoute.delete("/:uuid",authenticateMiddleware, deleteUserController.run.bind(deleteUserController))

@@ -23,6 +23,10 @@ export class MysqlUserRepository implements UserRepository{
     }
     async create(uuid: string, name: string, lastname: string, credentials: Credentials): Promise<User|any> {
         try {
+            const existingUser = await this.findByEmail(credentials.email)
+            if (existingUser) {
+                throw new Error("There's already an account with these email.");
+            }
             const sql = "INSERT INTO users (uuid, name, lastname, email, password) VALUES (?,?,?,?,?)"
             const params:any[]=[uuid,name,lastname,credentials.email,credentials.password]
             const [result]:any = await query(sql,params)
@@ -32,8 +36,6 @@ export class MysqlUserRepository implements UserRepository{
             return null
         }
     }
-
-    //TODO: CHANGE DELETE TO RETURN BOOL IN ORDER TO SUCCESS
     async delete(uuid: string): Promise<void> {
         try {
             const date = new Date()
@@ -89,6 +91,30 @@ export class MysqlUserRepository implements UserRepository{
         }catch (e) {
             console.log(e)
             return null
+        }
+    }
+
+    async findByEmail(email:string){
+        try {
+            const sql = `SELECT * FROM users WHERE email = ? AND deleted_at IS NULL`;
+            const params: any[] = [email];
+            const [result]: any = await query(sql, params);
+            let credentials = new Credentials(result[0].email, result[0].password)
+            return new User(result[0].uuid,result[0].name,result[0].lastname,credentials, null)
+        }catch (e) {
+            return null;
+        }
+    }
+
+    async findByUUID(uuid:string){
+        try {
+            const sql = `SELECT * FROM users WHERE uuid = ? AND deleted_at IS NULL`;
+            const params: any[] = [uuid];
+            const [result]: any = await query(sql, params);
+            let credentials = new Credentials(result[0].email, result[0].password)
+            return new User(result[0].uuid,result[0].name,result[0].lastname,credentials, null)
+        }catch (e) {
+            return null;
         }
     }
 

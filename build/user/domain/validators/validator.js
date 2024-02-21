@@ -9,19 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
-class User {
-    constructor(uuid, name, lastname, credentials, deletedAt) {
-        this.uuid = uuid;
-        this.name = name;
-        this.lastname = lastname;
-        this.credentials = credentials;
-        this.deletedAt = deletedAt;
+exports.Validator = void 0;
+const class_validator_1 = require("class-validator");
+class Validator {
+    constructor(entity) {
+        this.entity = entity;
     }
-    validate() {
+    invalidIfHasErrors() {
         return __awaiter(this, void 0, void 0, function* () {
-            return Promise.resolve();
+            const errors = yield (0, class_validator_1.validate)(this.entity);
+            if (errors.length > 0) {
+                throw new Error('Validation failed!');
+            }
         });
     }
 }
-exports.User = User;
+exports.Validator = Validator;
