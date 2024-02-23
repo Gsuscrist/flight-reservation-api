@@ -19,7 +19,7 @@ export class UpdateFlightController{
             const flight = new Flight(uuid,aeroline,origin,destiny,null)
             let updatedFlight = await this.useCase.run(uuid,flight)
             if (updatedFlight){
-                res.status(200).send({
+                return res.status(200).send({
                     status:"success",
                     data:{
                         uuid:updatedFlight.uuid,

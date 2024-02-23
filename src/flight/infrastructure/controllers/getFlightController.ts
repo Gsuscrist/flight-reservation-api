@@ -10,7 +10,7 @@ export class GetFlightController{
             let uuid = req.params.uuid;
             let flight = await this.useCase.runByUuid(uuid)
             if(flight){
-                res.status(200).send({
+                return res.status(200).send({
                     status:"success",
                     data:{
                         uuid:flight.uuid,
@@ -41,7 +41,7 @@ export class GetFlightController{
             let date = req.params.date;
             let flights = await this.useCase.runByDate(date,type)
             if(flights){
-                res.status(200).send({
+                return res.status(200).send({
                     status:"success",
                     data: flights,
                     message:"flights getting successfully"
@@ -68,7 +68,7 @@ export class GetFlightController{
             let place = req.params.place;
             let flights = await this.useCase.runByPlace(place,type)
             if(flights){
-                res.status(200).send({
+                return res.status(200).send({
                     status:"success",
                     data:flights,
                     message:"flight getting successfully"
