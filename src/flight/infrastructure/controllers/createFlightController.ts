@@ -23,6 +23,10 @@ export class CreateFlightController{
                     status:"Success",
                     data:{
                    //TODO: add result maping or try 'createdFlight var'
+                        uuid:createdFlight.uuid,
+                        aeroline:createdFlight.aeroline,
+                        origin:createdFlight.origin,
+                        destiny:createdFlight.destiny
                     },
                     message:"Flight creation successfully"
                 })
@@ -30,7 +34,7 @@ export class CreateFlightController{
             res.status(400).send({
                 status:"error",
                 data:[],
-                message:"user creation failed"
+                message:"flight creation failed"
             })
         }
         catch (e) {
