@@ -17,6 +17,8 @@ export class CreateFlightController{
             let destiny  = new Location(req.body.destiny.country, req.body.destiny.city, req.body.destiny.airport,
                 req.body.destiny.terminal, req.body.destiny.gate, req.body.destiny.date)
             let uuid= await this.uuid.run(aeroline);
+            console.log("o:", origin)
+            console.log("d:", destiny)
             const createdFlight = await this.useCase.run(uuid,aeroline,origin,destiny)
             if (createdFlight){
                 res.status(201).send({

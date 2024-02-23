@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createFlightController = exports.generateUuid = exports.createFlightUseCase = exports.mysqlFlightRepository = void 0;
+const mysqlFlightRepository_1 = require("./mysqlFlightRepository");
+const createFlightUseCase_1 = require("../application/useCases/createFlightUseCase");
+const generateUuidFlightUseCase_1 = require("../application/useCases/generateUuidFlightUseCase");
+const createFlightController_1 = require("./controllers/createFlightController");
+exports.mysqlFlightRepository = new mysqlFlightRepository_1.MysqlFlightRepository();
+exports.createFlightUseCase = new createFlightUseCase_1.CreateFlightUseCase(exports.mysqlFlightRepository);
+exports.generateUuid = new generateUuidFlightUseCase_1.GenerateUuidFlightUseCase(exports.mysqlFlightRepository);
+exports.createFlightController = new createFlightController_1.CreateFlightController(exports.createFlightUseCase, exports.generateUuid);

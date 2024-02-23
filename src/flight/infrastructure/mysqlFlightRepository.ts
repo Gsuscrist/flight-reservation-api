@@ -9,7 +9,7 @@ export class MysqlFlightRepository implements FlightRepository{
         try {
             //TODO: ADD VALIDATION TO CHECK IF THE UUID IS AVAILABLE
             const sql = "INSERT INTO flights (uuid, aeroline, origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date, destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-            const params:any[] = [uuid,aeroline,origin.country,origin.city,origin.airport,origin.terminal,origin.gate,origin.gate, destiny.country,destiny.city,destiny.airport, destiny.terminal, destiny.gate, destiny.date]
+            const params:any[] = [uuid,aeroline,origin.country,origin.city,origin.airport,origin.terminal,origin.gate,origin.date, destiny.country,destiny.city,destiny.airport, destiny.terminal, destiny.gate, destiny.date]
             const [result]:any = await query(sql,params)
             return new Flight(uuid, aeroline, origin, destiny, null)
         }catch (e){
