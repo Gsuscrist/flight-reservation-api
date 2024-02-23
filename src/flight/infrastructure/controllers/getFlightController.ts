@@ -11,24 +11,25 @@ export class GetFlightController{
             let flight = await this.useCase.runByUuid(uuid)
             if(flight){
                 res.status(200).send({
-                    message:"success",
+                    status:"success",
                     data:{
                         uuid:flight.uuid,
                         aeroline:flight.aeroline,
                         origin:flight.origin,
                         destiny:flight.destiny
-                    }
+                    },
+                    message:"flight getting successfully"
                 })
             res.status(400).send({
                 status:"error",
                 data:[],
-                message:"flight getting successfully"
+                message:"flight getting failed"
             })
             }
         }catch (e) {
             console.log(e)
             res.status(417).send({
-                message:"error",
+                status:"error",
                 error:e
             })
         }
@@ -37,27 +38,23 @@ export class GetFlightController{
     async runByOriginDate(req:Request, res:Response){
         try {
             let date = new Date(req.params.date);
-            let flight = await this.useCase.runByOriginDate(date)
-            if(flight){
+            let flights = await this.useCase.runByOriginDate(date)
+            if(flights){
                 res.status(200).send({
-                    message:"success",
-                    data:{
-                        uuid:flight.uuid,
-                        aeroline:flight.aeroline,
-                        origin:flight.origin,
-                        destiny:flight.destiny
-                    }
+                    status:"success",
+                    data: flights,
+                    message:"flights getting successfully"
                 })
                 res.status(400).send({
                     status:"error",
                     data:[],
-                    message:"flight getting successfully"
+                    message:"flight getting failed"
                 })
             }
         }catch (e) {
             console.log(e)
             res.status(417).send({
-                message:"error",
+                status:"error",
                 error:e
             })
         }
@@ -67,27 +64,23 @@ export class GetFlightController{
     async runByDestinyDate(req:Request, res:Response){
         try {
             let date = new Date(req.params.date);
-            let flight = await this.useCase.runByOriginDate(date)
-            if(flight){
+            let flights = await this.useCase.runByOriginDate(date)
+            if(flights){
                 res.status(200).send({
-                    message:"success",
-                    data:{
-                        uuid:flight.uuid,
-                        aeroline:flight.aeroline,
-                        origin:flight.origin,
-                        destiny:flight.destiny
-                    }
+                    status:"success",
+                    data:flights,
+                    message:"flight getting successfully"
                 })
                 res.status(400).send({
                     status:"error",
                     data:[],
-                    message:"flight getting successfully"
+                    message:"flight getting failed"
                 })
             }
         }catch (e) {
             console.log(e)
             res.status(417).send({
-                message:"error",
+                status:"error",
                 error:e
             })
         }

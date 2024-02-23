@@ -10,7 +10,7 @@ export class DeleteFlightUseCase{
         uuid:string
     ):Promise<Flight|any>{
         try {
-            return await this.repository.deleteById(uuid);
+            return await this.repository.deleteByUuid(uuid);
         }catch (e){
             console.log(e)
             return null;

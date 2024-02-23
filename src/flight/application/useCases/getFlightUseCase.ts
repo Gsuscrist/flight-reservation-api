@@ -19,7 +19,7 @@ export class GetFlightUseCase{
 
     async runByOriginDate(
         date:Date
-    ):Promise<Flight|any>{
+    ):Promise<Flight[]|any>{
         try {
             return await this.repository.getByOriginDate(date);
         }catch (e) {
@@ -31,7 +31,7 @@ export class GetFlightUseCase{
 
     async runByDestinyDate(
         date:Date
-    ):Promise<Flight|any>{
+    ):Promise<Flight[]|any>{
         try {
             return await this.repository.getByDestinyDate(date);
         }catch (e) {
