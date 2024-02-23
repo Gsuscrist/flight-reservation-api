@@ -26,7 +26,7 @@ class UpdateFlightController {
                 const flight = new flight_1.Flight(uuid, aeroline, origin, destiny, null);
                 let updatedFlight = yield this.useCase.run(uuid, flight);
                 if (updatedFlight) {
-                    res.status(200).send({
+                    return res.status(200).send({
                         status: "success",
                         data: {
                             uuid: updatedFlight.uuid,

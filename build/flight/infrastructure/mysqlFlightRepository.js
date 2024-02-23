@@ -105,7 +105,6 @@ class MysqlFlightRepository {
                 let params = [uuid];
                 let [results] = yield (0, mysql_1.query)(sql, params);
                 const flight = results[0];
-                console.log(flight);
                 const origin = new location_1.Location(flight.origin_country, flight.origin_city, flight.origin_airport, flight.origin_terminal, flight.origin_gate, flight.origin_date);
                 const destiny = new location_1.Location(flight.destiny_country, flight.destiny_city, flight.destiny_airport, flight.destiny_terminal, flight.destiny_gate, flight.destiny_date);
                 return new flight_1.Flight(flight.uuid, flight.aeroline, origin, destiny, null);

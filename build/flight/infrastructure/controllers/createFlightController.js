@@ -27,7 +27,7 @@ class CreateFlightController {
                 console.log("d:", destiny);
                 const createdFlight = yield this.useCase.run(uuid, aeroline, origin, destiny);
                 if (createdFlight) {
-                    res.status(201).send({
+                    return res.status(201).send({
                         status: "Success",
                         data: {
                             //TODO: add result maping or try 'createdFlight var'

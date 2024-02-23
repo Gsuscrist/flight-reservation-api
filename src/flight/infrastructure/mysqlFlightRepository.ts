@@ -91,7 +91,6 @@ export class MysqlFlightRepository implements FlightRepository{
             let params:any[]=[uuid]
             let [results]:any = await query(sql,params)
             const flight = results[0]
-            console.log(flight)
             const origin = new Location(flight.origin_country, flight.origin_city, flight.origin_airport, flight.origin_terminal, flight.origin_gate, flight.origin_date)
             const destiny = new Location(flight.destiny_country, flight.destiny_city, flight.destiny_airport, flight.destiny_terminal, flight.destiny_gate, flight.destiny_date)
 
