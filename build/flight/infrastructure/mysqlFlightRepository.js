@@ -58,10 +58,9 @@ class MysqlFlightRepository {
                 let params = [date];
                 let [results] = yield (0, mysql_1.query)(sql, params);
                 return results.map((flight) => {
-                    const { uuid, aeroline, originCountry, originCity, originAirport, originTerminal, originGate, originDate, destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate } = flight;
-                    //TODO: FIX ORIGIN AND DESTINY OBJECT
-                    const origin = new location_1.Location(originCountry, originCity, originAirport, originTerminal, originGate, originDate);
-                    const destiny = new location_1.Location(destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate);
+                    const { uuid, aeroline, origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date, destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date } = flight;
+                    const origin = new location_1.Location(origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date);
+                    const destiny = new location_1.Location(destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date);
                     return new flight_1.Flight(uuid, aeroline, origin, destiny, null);
                 });
             }
@@ -87,10 +86,9 @@ class MysqlFlightRepository {
                 let params = [place, place];
                 let [results] = yield (0, mysql_1.query)(sql, params);
                 return results.map((flight) => {
-                    const { uuid, aeroline, originCountry, originCity, originAirport, originTerminal, originGate, originDate, destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate } = flight;
-                    //TODO: fix origin destiny object
-                    let origin = new location_1.Location(originCountry, originCity, originAirport, originTerminal, originGate, originDate);
-                    let destiny = new location_1.Location(destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate);
+                    const { uuid, aeroline, origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date, destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date } = flight;
+                    const origin = new location_1.Location(origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date);
+                    const destiny = new location_1.Location(destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date);
                     return new flight_1.Flight(uuid, aeroline, origin, destiny, null);
                 });
             }
@@ -107,8 +105,9 @@ class MysqlFlightRepository {
                 let params = [uuid];
                 let [results] = yield (0, mysql_1.query)(sql, params);
                 const flight = results[0];
-                const origin = new location_1.Location(flight.originCountry, flight.originCity, flight.originAirport, flight.originTerminal, flight.originGate, flight.originDate);
-                const destiny = new location_1.Location(flight.destinyCountry, flight.destinyCity, flight.destinyAirport, flight.destinyTerminal, flight.destinyGate, flight.destinyDate);
+                console.log(flight);
+                const origin = new location_1.Location(flight.origin_country, flight.origin_city, flight.origin_airport, flight.origin_terminal, flight.origin_gate, flight.origin_date);
+                const destiny = new location_1.Location(flight.destiny_country, flight.destiny_city, flight.destiny_airport, flight.destiny_terminal, flight.destiny_gate, flight.destiny_date);
                 return new flight_1.Flight(flight.uuid, flight.aeroline, origin, destiny, null);
             }
             catch (e) {

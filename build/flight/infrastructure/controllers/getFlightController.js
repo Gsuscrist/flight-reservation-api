@@ -19,7 +19,6 @@ class GetFlightController {
             try {
                 let uuid = req.params.uuid;
                 let flight = yield this.useCase.runByUuid(uuid);
-                console.log(flight);
                 if (flight) {
                     res.status(200).send({
                         status: "success",
@@ -80,9 +79,7 @@ class GetFlightController {
             try {
                 let type = req.params.type;
                 let place = req.params.place;
-                console.log(place);
                 let flights = yield this.useCase.runByPlace(place, type);
-                console.log(flights);
                 if (flights) {
                     res.status(200).send({
                         status: "success",

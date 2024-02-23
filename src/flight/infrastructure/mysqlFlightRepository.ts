@@ -42,14 +42,13 @@ export class MysqlFlightRepository implements FlightRepository{
             let params:any[]=[date]
             let [results]:any = await query(sql,params)
 
-            return results.map((flight:{uuid:any, aeroline:any, originCountry:any,originCity:any,originAirport:any,
-                originTerminal:any,originGate:any,originDate:any, destinyCountry:any, destinyCity:any,
-                destinyAirport:any, destinyTerminal:any, destinyGate:any, destinyDate:any})=>{
-                const {uuid,aeroline,originCountry,originCity,originAirport,originTerminal,originGate,originDate,
-                    destinyCountry,destinyCity,destinyAirport,destinyTerminal,destinyGate,destinyDate}=flight
-                //TODO: FIX ORIGIN AND DESTINY OBJECT
-                const origin = new Location(originCountry, originCity, originAirport, originTerminal, originGate, originDate)
-                const destiny = new Location(destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate)
+            return results.map((flight:{uuid:any, aeroline:any, origin_country:any,origin_city:any,origin_airport:any,
+                origin_terminal:any,origin_gate:any,origin_date:any, destiny_country:any, destiny_city:any,
+                destiny_airport:any, destiny_terminal:any, destiny_gate:any, destiny_date:any})=>{
+                const {uuid,aeroline,origin_country,origin_city,origin_airport,origin_terminal,origin_gate,origin_date,
+                    destiny_country,destiny_city,destiny_airport,destiny_terminal,destiny_gate,destiny_date}=flight
+                const origin = new Location(origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date)
+                const destiny = new Location(destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date)
                 return new Flight(uuid,aeroline,origin,destiny,null)
             })
         }catch (e) {
@@ -71,14 +70,13 @@ export class MysqlFlightRepository implements FlightRepository{
             let params:any[]=[place,place]
             let [results]:any = await query(sql,params)
 
-            return results.map((flight:{uuid:any, aeroline:any, originCountry:any,originCity:any,originAirport:any,
-                originTerminal:any,originGate:any,originDate:any, destinyCountry:any, destinyCity:any,
-                destinyAirport:any, destinyTerminal:any, destinyGate:any, destinyDate:any})=>{
-                const {uuid,aeroline,originCountry,originCity,originAirport,originTerminal,originGate,originDate,
-                    destinyCountry,destinyCity,destinyAirport,destinyTerminal,destinyGate,destinyDate}=flight
-                //TODO: fix origin destiny object
-                let origin = new Location(originCountry, originCity, originAirport, originTerminal, originGate, originDate)
-                let destiny = new Location(destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate)
+            return results.map((flight:{uuid:any, aeroline:any, origin_country:any,origin_city:any,origin_airport:any,
+                origin_terminal:any,origin_gate:any,origin_date:any, destiny_country:any, destiny_city:any,
+                destiny_airport:any, destiny_terminal:any, destiny_gate:any, destiny_date:any})=>{
+                const {uuid,aeroline,origin_country,origin_city,origin_airport,origin_terminal,origin_gate,origin_date,
+                    destiny_country,destiny_city,destiny_airport,destiny_terminal,destiny_gate,destiny_date}=flight
+                const origin = new Location(origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date)
+                const destiny = new Location(destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date)
                 return new Flight(uuid,aeroline,origin,destiny,null)
             })
         }catch (e) {
@@ -93,8 +91,9 @@ export class MysqlFlightRepository implements FlightRepository{
             let params:any[]=[uuid]
             let [results]:any = await query(sql,params)
             const flight = results[0]
-            const origin = new Location(flight.originCountry, flight.originCity, flight.originAirport, flight.originTerminal, flight.originGate, flight.originDate)
-            const destiny = new Location(flight.destinyCountry, flight.destinyCity, flight.destinyAirport, flight.destinyTerminal, flight.destinyGate, flight.destinyDate)
+            console.log(flight)
+            const origin = new Location(flight.origin_country, flight.origin_city, flight.origin_airport, flight.origin_terminal, flight.origin_gate, flight.origin_date)
+            const destiny = new Location(flight.destiny_country, flight.destiny_city, flight.destiny_airport, flight.destiny_terminal, flight.destiny_gate, flight.destiny_date)
 
             return new Flight(flight.uuid,flight.aeroline,origin,destiny,null)
         }catch (e) {
