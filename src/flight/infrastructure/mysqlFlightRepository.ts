@@ -22,11 +22,15 @@ export class MysqlFlightRepository implements FlightRepository{
         throw new Error("Method not implemented.");
     }
 
-    getByDate(date: Date): Promise<any> {
+    getByOriginDate(date: Date): Promise<any> {
         throw new Error("Method not implemented.");
     }
 
-    getById(uuid: string): Promise<any> {
+    getByDestinyDate(date: Date): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+
+    getByUuid(uuid: string): Promise<any> {
         throw new Error("Method not implemented.");
     }
 

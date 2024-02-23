@@ -34,10 +34,40 @@ export class GetFlightController{
         }
     }
 
-    async runByDate(req:Request,res:Response){
+    async runByOriginDate(req:Request, res:Response){
         try {
             let date = new Date(req.params.date);
-            let flight = await this.useCase.runByDate(date)
+            let flight = await this.useCase.runByOriginDate(date)
+            if(flight){
+                res.status(200).send({
+                    message:"success",
+                    data:{
+                        uuid:flight.uuid,
+                        aeroline:flight.aeroline,
+                        origin:flight.origin,
+                        destiny:flight.destiny
+                    }
+                })
+                res.status(400).send({
+                    status:"error",
+                    data:[],
+                    message:"flight getting successfully"
+                })
+            }
+        }catch (e) {
+            console.log(e)
+            res.status(417).send({
+                message:"error",
+                error:e
+            })
+        }
+    }
+
+
+    async runByDestinyDate(req:Request, res:Response){
+        try {
+            let date = new Date(req.params.date);
+            let flight = await this.useCase.runByOriginDate(date)
             if(flight){
                 res.status(200).send({
                     message:"success",

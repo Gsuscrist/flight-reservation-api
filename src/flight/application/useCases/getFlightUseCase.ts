@@ -10,18 +10,30 @@ export class GetFlightUseCase{
         uuid:string
     ):Promise<Flight|any>{
         try {
-            return await this.repository.getById(uuid);
+            return await this.repository.getByUuid(uuid);
         }catch (e) {
             console.log(e)
             return null;
         }
     }
 
-    async runByDate(
+    async runByOriginDate(
         date:Date
     ):Promise<Flight|any>{
         try {
-            return await this.repository.getByDate(date);
+            return await this.repository.getByOriginDate(date);
+        }catch (e) {
+            console.log(e)
+            return null;
+        }
+    }
+
+
+    async runByDestinyDate(
+        date:Date
+    ):Promise<Flight|any>{
+        try {
+            return await this.repository.getByDestinyDate(date);
         }catch (e) {
             console.log(e)
             return null;
