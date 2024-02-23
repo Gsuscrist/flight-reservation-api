@@ -24,5 +24,22 @@ export class MysqlFlightRepository implements FlightRepository{
         throw new Error("Method not implemented.");
     }
 
+    async generateUuid(aeroline: string):Promise<string|any>{
+        try {
+            const namePrefix = aeroline.slice(0, 3).toLowerCase();
+            const randomNumbers = Array.from({ length: 3 }, () =>
+                Math.floor(Math.random() * 10));
+            let result = '';
+            for (let i = 0; i < 3; i++) {
+                result += namePrefix[i] + randomNumbers[i];
+            }
+            result +="-"+aeroline
+
+            return result;
+        }catch (e){
+            console.log(e)
+        }
+    }
+
 
 }

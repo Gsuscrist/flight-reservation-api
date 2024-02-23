@@ -6,7 +6,7 @@ import {GenerateUuidFlightUseCase} from "../../application/useCases/generateUuid
 
 
 export class CreateFlightController{
-    constructor(readonly useCase:CreateFlightUseCase, readonly generateUuid:GenerateUuidFlightUseCase) {
+    constructor(readonly useCase:CreateFlightUseCase, readonly uuid:GenerateUuidFlightUseCase) {
     }
 
     async run(req:Request,res:Response){
@@ -16,17 +16,13 @@ export class CreateFlightController{
                 req.body.origin.terminal, req.body.origin.gate, req.body.origin.date)
             let destiny  = new Location(req.body.destiny.country, req.body.destiny.city, req.body.destiny.airport,
                 req.body.destiny.terminal, req.body.destiny.gate, req.body.destiny.date)
-            //TODO: GENERATE UUID
-            let uuid= "uuid";
+            let uuid= await this.uuid.run(aeroline);
             const createdFlight = await this.useCase.run(uuid,aeroline,origin,destiny)
             if (createdFlight){
                 res.status(201).send({
                     status:"Success",
                     data:{
-                        uuid:createdFlight.uuid,
-                        aeroline:createdFlight.aeroline,
-                        origin: createdFlight.origin,
-                        destiny: createdFlight.destiny
+                   //TODO: add result maping or try 'createdFlight var'
                     },
                     message:"Flight creation successfully"
                 })
