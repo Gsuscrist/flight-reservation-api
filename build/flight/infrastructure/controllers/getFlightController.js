@@ -18,12 +18,30 @@ class GetFlightController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let uuid = req.params.uuid;
-                let flight = this.useCase.runByUuid(uuid);
+                let flight = yield this.useCase.runByUuid(uuid);
+                console.log(flight);
+                if (flight) {
+                    res.status(200).send({
+                        status: "success",
+                        data: {
+                            uuid: flight.uuid,
+                            aeroline: flight.aeroline,
+                            origin: flight.origin,
+                            destiny: flight.destiny
+                        },
+                        message: "flight getting successfully"
+                    });
+                }
+                res.status(400).send({
+                    status: "error",
+                    data: [],
+                    message: "flight getting failed"
+                });
             }
             catch (e) {
                 console.log(e);
                 res.status(417).send({
-                    message: "error",
+                    status: "error",
                     error: e
                 });
             }
@@ -32,13 +50,56 @@ class GetFlightController {
     runByDate(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let date = new Date(req.params.date);
-                let flight = this.useCase.runByDate(date);
+                let type = req.params.type;
+                let date = req.params.date;
+                let flights = yield this.useCase.runByDate(date, type);
+                if (flights) {
+                    res.status(200).send({
+                        status: "success",
+                        data: flights,
+                        message: "flights getting successfully"
+                    });
+                }
+                res.status(400).send({
+                    status: "error",
+                    data: [],
+                    message: "flight getting failed"
+                });
             }
             catch (e) {
                 console.log(e);
                 res.status(417).send({
-                    message: "error",
+                    status: "error",
+                    error: e
+                });
+            }
+        });
+    }
+    runByPlace(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let type = req.params.type;
+                let place = req.params.place;
+                console.log(place);
+                let flights = yield this.useCase.runByPlace(place, type);
+                console.log(flights);
+                if (flights) {
+                    res.status(200).send({
+                        status: "success",
+                        data: flights,
+                        message: "flight getting successfully"
+                    });
+                }
+                res.status(400).send({
+                    status: "error",
+                    data: [],
+                    message: "flight getting failed"
+                });
+            }
+            catch (e) {
+                console.log(e);
+                res.status(417).send({
+                    status: "error",
                     error: e
                 });
             }

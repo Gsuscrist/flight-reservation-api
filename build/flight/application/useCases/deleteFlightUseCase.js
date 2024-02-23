@@ -17,7 +17,7 @@ class DeleteFlightUseCase {
     run(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield this.repository.deleteById(uuid);
+                return yield this.repository.deleteByUuid(uuid);
             }
             catch (e) {
                 console.log(e);

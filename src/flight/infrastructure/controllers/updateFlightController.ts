@@ -28,20 +28,20 @@ export class UpdateFlightController{
                         destiny:updatedFlight.destiny
                     },
                     message:"flight updating successfully"
-                })
+                });
             }
             res.status(400).send({
                 status:"error",
                 data:[],
                 message:"flight update fail"
-            })
+            });
 
         }catch (e) {
             console.log(e)
             res.status(417).send({
                 message:"error",
                 error:e
-            })
+            });
         }
     }
 }

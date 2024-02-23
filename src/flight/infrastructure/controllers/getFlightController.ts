@@ -9,6 +9,7 @@ export class GetFlightController{
         try{
             let uuid = req.params.uuid;
             let flight = await this.useCase.runByUuid(uuid)
+            console.log(flight)
             if(flight){
                 res.status(200).send({
                     status:"success",
@@ -19,38 +20,39 @@ export class GetFlightController{
                         destiny:flight.destiny
                     },
                     message:"flight getting successfully"
-                })
+                });
+            }
             res.status(400).send({
                 status:"error",
                 data:[],
                 message:"flight getting failed"
-            })
-            }
+            });
         }catch (e) {
             console.log(e)
             res.status(417).send({
                 status:"error",
                 error:e
-            })
+            });
         }
     }
 
-    async runByOriginDate(req:Request, res:Response){
+    async runByDate(req:Request, res:Response){
         try {
-            let date = new Date(req.params.date);
-            let flights = await this.useCase.runByOriginDate(date)
+            let type = req.params.type;
+            let date = req.params.date;
+            let flights = await this.useCase.runByDate(date,type)
             if(flights){
                 res.status(200).send({
                     status:"success",
                     data: flights,
                     message:"flights getting successfully"
                 })
-                res.status(400).send({
-                    status:"error",
-                    data:[],
-                    message:"flight getting failed"
-                })
             }
+            res.status(400).send({
+                status:"error",
+                data:[],
+                message:"flight getting failed"
+            })
         }catch (e) {
             console.log(e)
             res.status(417).send({
@@ -61,22 +63,25 @@ export class GetFlightController{
     }
 
 
-    async runByDestinyDate(req:Request, res:Response){
+    async runByPlace(req:Request, res:Response){
         try {
-            let date = new Date(req.params.date);
-            let flights = await this.useCase.runByOriginDate(date)
+            let type = req.params.type;
+            let place = req.params.place;
+            console.log(place)
+            let flights = await this.useCase.runByPlace(place,type)
+            console.log(flights)
             if(flights){
                 res.status(200).send({
                     status:"success",
                     data:flights,
                     message:"flight getting successfully"
                 })
-                res.status(400).send({
-                    status:"error",
-                    data:[],
-                    message:"flight getting failed"
-                })
             }
+            res.status(400).send({
+                status:"error",
+                data:[],
+                message:"flight getting failed"
+            })
         }catch (e) {
             console.log(e)
             res.status(417).send({

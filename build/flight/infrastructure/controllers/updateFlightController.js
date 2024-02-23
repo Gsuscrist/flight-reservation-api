@@ -33,13 +33,14 @@ class UpdateFlightController {
                             aeroline: updatedFlight.aeroline,
                             origin: updatedFlight.origin,
                             destiny: updatedFlight.destiny
-                        }
+                        },
+                        message: "flight updating successfully"
                     });
                 }
                 res.status(400).send({
                     status: "error",
                     data: [],
-                    message: "user update fail"
+                    message: "flight update fail"
                 });
             }
             catch (e) {

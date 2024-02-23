@@ -38,8 +38,7 @@ export class CreateFlightController{
                 data:[],
                 message:"flight creation failed"
             })
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
             res.status(417).send({
                 message:"error",

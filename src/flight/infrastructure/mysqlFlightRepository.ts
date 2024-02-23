@@ -29,9 +29,16 @@ export class MysqlFlightRepository implements FlightRepository{
         }
     }
 
-    async getByOriginDate(date: Date): Promise<Flight[]|any> {
+    async getByDate(date: string, type:string): Promise<Flight[]|any> {
         try {
-            let sql = "SELECT * FROM flights WHERE DATE(origin_date) = ? AND deleted_at IS NULL"
+            let sql:string;
+            if (type ==="departure"){
+                sql = "SELECT * FROM flights WHERE DATE(origin_date) = ? AND deleted_at IS NULL"
+            }else if(type==="arrive"){
+                sql = "SELECT * FROM flights WHERE DATE(destiny_date) = ? AND deleted_at IS NULL"
+            }else{
+                throw new Error("type not defined")
+            }
             let params:any[]=[date]
             let [results]:any = await query(sql,params)
 
@@ -40,7 +47,7 @@ export class MysqlFlightRepository implements FlightRepository{
                 destinyAirport:any, destinyTerminal:any, destinyGate:any, destinyDate:any})=>{
                 const {uuid,aeroline,originCountry,originCity,originAirport,originTerminal,originGate,originDate,
                     destinyCountry,destinyCity,destinyAirport,destinyTerminal,destinyGate,destinyDate}=flight
-
+                //TODO: FIX ORIGIN AND DESTINY OBJECT
                 const origin = new Location(originCountry, originCity, originAirport, originTerminal, originGate, originDate)
                 const destiny = new Location(destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate)
                 return new Flight(uuid,aeroline,origin,destiny,null)
@@ -51,10 +58,17 @@ export class MysqlFlightRepository implements FlightRepository{
         }
     }
 
-    async getByDestinyDate(date: Date): Promise<Flight[]|any> {
+    async getByPlace(place:string, type:string): Promise<Flight[]|any> {
         try {
-            let sql = "SELECT * FROM flights WHERE DATE(destiny_date) = ? AND deleted_at IS NULL"
-            let params:any[]=[date]
+            let sql:string;
+            if (type ==="departure"){
+                sql = "SELECT * FROM flights WHERE origin_city = ? OR origin_country = ? AND deleted_at IS NULL"
+            }else if(type==="arrive"){
+                sql = "SELECT * FROM flights WHERE destiny_city =? OR destiny_country= ? AND deleted_at IS NULL"
+            }else{
+                throw new Error("type not defined")
+            }
+            let params:any[]=[place,place]
             let [results]:any = await query(sql,params)
 
             return results.map((flight:{uuid:any, aeroline:any, originCountry:any,originCity:any,originAirport:any,
@@ -62,9 +76,9 @@ export class MysqlFlightRepository implements FlightRepository{
                 destinyAirport:any, destinyTerminal:any, destinyGate:any, destinyDate:any})=>{
                 const {uuid,aeroline,originCountry,originCity,originAirport,originTerminal,originGate,originDate,
                     destinyCountry,destinyCity,destinyAirport,destinyTerminal,destinyGate,destinyDate}=flight
-
-                const origin = new Location(originCountry, originCity, originAirport, originTerminal, originGate, originDate)
-                const destiny = new Location(destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate)
+                //TODO: fix origin destiny object
+                let origin = new Location(originCountry, originCity, originAirport, originTerminal, originGate, originDate)
+                let destiny = new Location(destinyCountry, destinyCity, destinyAirport, destinyTerminal, destinyGate, destinyDate)
                 return new Flight(uuid,aeroline,origin,destiny,null)
             })
         }catch (e) {

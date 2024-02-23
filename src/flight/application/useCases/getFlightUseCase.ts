@@ -17,11 +17,12 @@ export class GetFlightUseCase{
         }
     }
 
-    async runByOriginDate(
-        date:Date
+    async runByDate(
+        date:string,
+        type:string
     ):Promise<Flight[]|any>{
         try {
-            return await this.repository.getByOriginDate(date);
+            return await this.repository.getByDate(date,type);
         }catch (e) {
             console.log(e)
             return null;
@@ -29,11 +30,12 @@ export class GetFlightUseCase{
     }
 
 
-    async runByDestinyDate(
-        date:Date
+    async runByPlace(
+        place:string,
+        type:string,
     ):Promise<Flight[]|any>{
         try {
-            return await this.repository.getByDestinyDate(date);
+            return await this.repository.getByPlace(place,type);
         }catch (e) {
             console.log(e)
             return null;

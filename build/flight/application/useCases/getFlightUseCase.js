@@ -17,7 +17,7 @@ class GetFlightUseCase {
     runByUuid(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield this.repository.getById(uuid);
+                return yield this.repository.getByUuid(uuid);
             }
             catch (e) {
                 console.log(e);
@@ -25,10 +25,21 @@ class GetFlightUseCase {
             }
         });
     }
-    runByDate(date) {
+    runByDate(date, type) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield this.repository.getByDate(date);
+                return yield this.repository.getByDate(date, type);
+            }
+            catch (e) {
+                console.log(e);
+                return null;
+            }
+        });
+    }
+    runByPlace(place, type) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield this.repository.getByPlace(place, type);
             }
             catch (e) {
                 console.log(e);
