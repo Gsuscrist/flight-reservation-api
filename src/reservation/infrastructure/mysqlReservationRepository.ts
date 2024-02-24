@@ -5,8 +5,20 @@ import {Reservation} from "../domain/entity/reservation";
 
 
 export class MysqlReservationRepository implements ReservationRepository{
-    create(uuid: string, flightType: "one-way" | "round-trip", luggageType: "basic" | "medium" | "premium", departureFlightUuid: string, departureSeats: number, passengers: Passenger[], returnFlightUuid?: string, returnSeats?: number): Promise<any> {
-        return Promise.resolve(undefined);
+    async create(uuid: string, flightType: "one-way" | "round-trip", luggageType: "basic" | "medium" | "premium", departureFlightUuid: string, departureSeats: number, passengers: Passenger[], returnFlightUuid?: string, returnSeats?: number): Promise<any> {
+        try {
+          let sql = "INSERT INTO reservations (uuid,flight_type, luggage_type, departure_flight_uuid,departure_seats, passengers, return_flight_uuid, return_seats) values(?,?,?,?,?,?,?,?)";
+          let params:any[]=[uuid,flightType,luggageType,departureFlightUuid,departureSeats,passengers,returnFlightUuid,returnSeats];
+          const [results]:any = await query(sql,params);
+          if (results){
+              let result = results[0]
+              return new Reservation(result.uuid, result.flight_type, result.luggage_type, result.departure_flight_uuid,
+                  result.departure_seats, result.passengers,null,result.return_flight_uuid, result.return_seats)
+          }
+        }catch (e) {
+            console.log(e)
+            return null;
+        }
     }
 
     async deleteByUuid(uuid: string): Promise<void> {
