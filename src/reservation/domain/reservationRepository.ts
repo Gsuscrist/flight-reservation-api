@@ -1,5 +1,5 @@
-import {Reservation} from "./domain/entity/reservation";
-import {Passanger} from "./domain/entity/passanger";
+import {Reservation} from "./entity/reservation";
+import {Passenger} from "./entity/passenger";
 
 
 export interface ReservationRepository{
@@ -12,7 +12,7 @@ export interface ReservationRepository{
         luggageType: 'basic' | 'medium' | 'premium',
         departureFlightUuid: string,
         departureSeats: number,
-        passagers:Passanger[],
+        passengers:Passenger[],
         returnFlightUuid?: string,
         returnSeats?: number,
     ):Promise<Reservation|any>

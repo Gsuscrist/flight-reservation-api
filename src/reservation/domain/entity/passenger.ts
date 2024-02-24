@@ -1,6 +1,6 @@
 
 
-export class Passanger{
+export class Passenger {
     constructor(
         readonly name: string,
         readonly lastname: string,

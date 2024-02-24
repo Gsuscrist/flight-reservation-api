@@ -1,4 +1,4 @@
-import {Passanger} from "./passanger";
+import {Passenger} from "./passenger";
 
 export class Reservation{
 
@@ -8,7 +8,7 @@ export class Reservation{
         readonly luggageType: 'basic' | 'medium' | 'premium',
         readonly departureFlightUuid: string,
         readonly departureSeats: number,
-        readonly passagers: Passanger[],
+        readonly passagers: Passenger[],
         readonly returnFlightUuid?: string,
         readonly returnSeats?: number
     ) {
