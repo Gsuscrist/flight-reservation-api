@@ -9,6 +9,7 @@ export class Reservation{
         readonly departureFlightUuid: string,
         readonly departureSeats: number,
         readonly passagers: Passenger[],
+        readonly deletedAt: Date | null,
         readonly returnFlightUuid?: string,
         readonly returnSeats?: number
     ) {

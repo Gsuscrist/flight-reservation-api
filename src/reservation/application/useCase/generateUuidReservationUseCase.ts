@@ -1,7 +1,7 @@
 import {ReservationRepository} from "../../domain/reservationRepository";
 
 
-export class GenerateReservationUuidUseCase{
+export class GenerateUuidReservationUseCase {
     constructor(readonly repository:ReservationRepository) {
     }
 

@@ -12,9 +12,6 @@ export class MysqlReservationRepository implements ReservationRepository{
         return Promise.resolve(undefined);
     }
 
-    generateUuid(flightType: string): Promise<any> {
-        return Promise.resolve(undefined);
-    }
 
     getByUuid(uuid: string): Promise<any> {
         return Promise.resolve(undefined);
@@ -22,6 +19,21 @@ export class MysqlReservationRepository implements ReservationRepository{
 
     update(uuid: string, reservation: Reservation): Promise<any> {
         return Promise.resolve(undefined);
+    }
+    async generateUuid(flightType: string): Promise<any> {
+        try {
+            const namePrefix = flightType.slice(0, 4).toLowerCase();
+            const randomNumbers = Array.from({ length: 8 }, () =>
+                Math.floor(Math.random() * 10));
+            let result = '';
+            for (let i = 0; i < 4; i++) {
+                result += randomNumbers[i] + namePrefix[i] + randomNumbers[i+1];
+            }
+
+            return result;
+        }catch (e){
+            console.log(e)
+        }
     }
 
 
