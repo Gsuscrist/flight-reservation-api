@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    checkInReservationController,
     createReservationController,
     deleteReservationController,
     getReservationController,
@@ -16,3 +17,5 @@ reservationRoute.post("/",createReservationController.run.bind(createReservation
 reservationRoute.put("/:uuid",updateReservationController.run.bind(updateReservationController))
 
 reservationRoute.delete("/:uuid",deleteReservationController.run.bind(deleteReservationController))
+
+reservationRoute.post("/check-in/flights", checkInReservationController.run.bind(checkInReservationController))

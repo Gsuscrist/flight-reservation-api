@@ -1,7 +1,6 @@
 import {Passenger} from "./passenger";
 
 export class Reservation{
-
     constructor(
         readonly uuid:string,
         readonly flightType:'one-way' | 'round-trip',
@@ -10,6 +9,7 @@ export class Reservation{
         readonly departureSeats: number,
         readonly passagers: Passenger[],
         readonly deletedAt: Date | null,
+        readonly checkInAt: Date | null,
         readonly returnFlightUuid?: string,
         readonly returnSeats?: number
     ) {

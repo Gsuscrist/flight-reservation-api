@@ -8,13 +8,17 @@ import {GetReservationUseCase} from "../application/useCase/getReservationUseCas
 import {GetReservationController} from "./controllers/getReservationController";
 import {UpdateReservationUseCase} from "../application/useCase/updateReservationUseCase";
 import {UpdateReservationController} from "./controllers/updateReservationController";
+import {EmailService} from "./services/emailService";
+import {CheckInReservationUseCase} from "../application/useCase/checkInReservationUseCase";
+import {CheckInReservationController} from "./controllers/checkInReservationController";
 
 export const mysqlReservationRepository = new MysqlReservationRepository()
 
 
 export const createReservationUseCase = new CreateReservationUseCase(mysqlReservationRepository)
 export const generateUuid = new GenerateUuidReservationUseCase(mysqlReservationRepository)
-export const createReservationController = new CreateReservationController(createReservationUseCase,generateUuid)
+export const emailService = new EmailService()
+export const createReservationController = new CreateReservationController(createReservationUseCase,generateUuid, emailService)
 
 
 export const deleteReservationUseCase = new DeleteReservationUseCase(mysqlReservationRepository)
@@ -27,3 +31,7 @@ export const getReservationController = new GetReservationController(getReservat
 
 export const updateReservationUseCase = new UpdateReservationUseCase(mysqlReservationRepository)
 export const updateReservationController = new UpdateReservationController(updateReservationUseCase)
+
+
+export const checkInReservationUseCase = new CheckInReservationUseCase(mysqlReservationRepository)
+export const checkInReservationController = new CheckInReservationController(checkInReservationUseCase)

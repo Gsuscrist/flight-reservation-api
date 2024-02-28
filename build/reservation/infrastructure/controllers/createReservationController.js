@@ -11,18 +11,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateReservationController = void 0;
 class CreateReservationController {
-    constructor(useCase, uuid) {
+    constructor(useCase, uuid, emailService) {
         this.useCase = useCase;
         this.uuid = uuid;
+        this.emailService = emailService;
     }
     run(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            //TODO: GIVE MESSAGE FORMAT
+            // TODO: SEND A PRICE REFERENCE
             try {
                 let { flightType, luggageType, departureFlightUuid, departureSeats, passengers, returnFlightUuid, returnSeats } = req.body;
                 let uuid = yield this.uuid.run(flightType);
                 let createdReservation = yield this.useCase.run(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, returnFlightUuid, returnSeats);
                 if (createdReservation) {
-                    //TODO: VERIFY DATA RESPONSE
+                    const verificationURL = `http://localhost:8080/reservation/check-in/flights`;
+                    const message = `thanks for your reservation, on this email you will find: \n
+                Check-in link: ${verificationURL}
+                Reservation's code: ${uuid}
+                Reservation's resume:\n${JSON.stringify(createdReservation, null, 2)}
+                HOW TO CHECK-IN: 
+                access the link and send your reservation code 
+                IMPORTANT:
+                THIS EMAIL WAS SENT TO ALL THE PASSENGERS FROM THE RESERVATION, AT LEAST ONE PASSENGER MUST DO THE CHECK-IN.
+                YOU HAVE TO CHECK-IN TO GUARANTEE YOU FLIGHT `;
+                    const emailsAddress = new Set();
+                    passengers.forEach(passenger => {
+                        console.log(passenger.email);
+                        emailsAddress.add(passenger.email);
+                    });
+                    emailsAddress.forEach(mail => {
+                        this.emailService.sendEmail(mail, "RESERVATION RESUME CHECK-IN", message);
+                    });
                     return res.status(201).send({
                         status: "success",
                         data: createdReservation,

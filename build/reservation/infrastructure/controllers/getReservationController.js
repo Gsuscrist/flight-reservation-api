@@ -20,7 +20,6 @@ class GetReservationController {
                 let uuid = req.params.uuid;
                 let reservation = yield this.useCase.run(uuid);
                 if (reservation) {
-                    //TODO: CHECK DATA RESPONSE
                     return res.status(200).send({
                         status: "success",
                         data: reservation,

@@ -7,6 +7,7 @@ export interface ReservationRepository{
     getByUuid(uuid:string):Promise<Reservation|any>
     update(uuid:string, reservation:Reservation):Promise<Reservation|any>
     deleteByUuid(uuid:string):Promise<void>
+    checkIn(uuid:string):Promise<Reservation | any>
     create(
         uuid:string,
         flightType: 'one-way'| 'round-trip',

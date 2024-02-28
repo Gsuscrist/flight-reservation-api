@@ -17,7 +17,6 @@ class MysqlFlightRepository {
     createFlight(uuid, aeroline, origin, destiny) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                //TODO: ADD VALIDATION TO CHECK IF THE UUID IS AVAILABLE
                 const sql = "INSERT INTO flights (uuid, aeroline, origin_country, origin_city, origin_airport, origin_terminal, origin_gate, origin_date, destiny_country, destiny_city, destiny_airport, destiny_terminal, destiny_gate, destiny_date) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 const params = [uuid, aeroline, origin.country, origin.city, origin.airport, origin.terminal, origin.gate, origin.date, destiny.country, destiny.city, destiny.airport, destiny.terminal, destiny.gate, destiny.date];
                 const [result] = yield (0, mysql_1.query)(sql, params);
@@ -135,13 +134,16 @@ class MysqlFlightRepository {
     generateUuid(aeroline) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const namePrefix = aeroline.slice(0, 3).toLowerCase();
-                const randomNumbers = Array.from({ length: 3 }, () => Math.floor(Math.random() * 10));
-                let result = '';
-                for (let i = 0; i < 3; i++) {
-                    result += namePrefix[i] + randomNumbers[i];
-                }
-                result += "-" + aeroline;
+                let result;
+                do {
+                    const namePrefix = aeroline.slice(0, 3).toLowerCase();
+                    const randomNumbers = Array.from({ length: 3 }, () => Math.floor(Math.random() * 10));
+                    result = '';
+                    for (let i = 0; i < 3; i++) {
+                        result += namePrefix[i] + randomNumbers[i];
+                    }
+                    result += "-" + aeroline;
+                } while (yield this.getByUuid(result));
                 return result;
             }
             catch (e) {

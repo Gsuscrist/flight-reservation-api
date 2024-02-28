@@ -13,16 +13,48 @@ exports.MysqlReservationRepository = void 0;
 const mysql_1 = require("../../database/mysql");
 const reservation_1 = require("../domain/entity/reservation");
 class MysqlReservationRepository {
-    //TODO: FIX PASSENGERS MAPPING IN RESPONSE
     create(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, returnFlightUuid, returnSeats) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                //TODO: ADD FLIGHTS UUID VALIDATIONS
-                let sql = "INSERT INTO reservations (uuid,flight_type, luggage_type, departure_flight_uuid,departure_seats, passengers, return_flight_uuid, return_seats) values(?,?,?,?,?,?,?,?)";
-                let params = [uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, returnFlightUuid, returnSeats];
-                const [results] = yield (0, mysql_1.query)(sql, params);
-                if (results) {
-                    return new reservation_1.Reservation(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, null, returnFlightUuid, returnSeats);
+                let isValid = false;
+                if (departureFlightUuid !== null) {
+                    let verificationSql = "SELECT * FROM flights WHERE uuid = ? AND deleted_at IS NULL";
+                    let verificationParams = [departureFlightUuid];
+                    let [verificationResults] = yield (0, mysql_1.query)(verificationSql, verificationParams);
+                    if (verificationResults.length > 0) {
+                        isValid = true;
+                    }
+                    else {
+                        throw new Error("flight uuid invalid");
+                    }
+                }
+                else if (returnFlightUuid !== null) {
+                    isValid = false;
+                    let verification2Sql = "SELECT * FROM flights WHERE uuid = ? AND deleted_at IS NULL";
+                    let verification2Params = [departureFlightUuid];
+                    let [verification2Results] = yield (0, mysql_1.query)(verification2Sql, verification2Params);
+                    if (verification2Results.length > 0) {
+                        isValid = true;
+                    }
+                    else {
+                        throw new Error("flight uuid invalid");
+                    }
+                }
+                //TODO: MOVE THIS VALIDATIONS TO DOMAIN LAYER
+                if (returnSeats !== passengers.length || departureSeats !== passengers.length && departureSeats !== null) {
+                    throw new Error("Please include all passangers information");
+                    isValid = false;
+                }
+                else {
+                    isValid = true;
+                }
+                if (isValid) {
+                    let sql = "INSERT INTO reservations (uuid,flight_type, luggage_type, departure_flight_uuid,departure_seats, passengers, return_flight_uuid, return_seats) values(?,?,?,?,?,?,?,?)";
+                    let params = [uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, returnFlightUuid, returnSeats];
+                    const [results] = yield (0, mysql_1.query)(sql, params);
+                    if (results) {
+                        return new reservation_1.Reservation(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, null, returnFlightUuid, returnSeats);
+                    }
                 }
             }
             catch (e) {

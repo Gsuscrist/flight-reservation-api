@@ -12,7 +12,7 @@ export class UpdateReservationController{
             let {flightType,luggageType,departureFlightUuid,departureSeats,passengers,returnFlightUuid,
                 returnSeats} = req.body
             const reservation = new Reservation(uuid,flightType,luggageType,departureFlightUuid,
-                departureSeats,passengers,null,returnFlightUuid,returnSeats)
+                departureSeats,passengers,null,null,returnFlightUuid,returnSeats)
 
             let updatedReservation = await this.useCase.run(uuid,reservation)
 
