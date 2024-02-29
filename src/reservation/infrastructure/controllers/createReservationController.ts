@@ -10,7 +10,6 @@ export class CreateReservationController{
 
 
     async run(req:Request,res:Response){
-        //TODO: GIVE MESSAGE FORMAT
         // TODO: SEND A PRICE REFERENCE
         try {
             let {flightType,luggageType,departureFlightUuid,departureSeats,passengers,returnFlightUuid,
@@ -24,19 +23,20 @@ export class CreateReservationController{
                 const message= `thanks for your reservation, on this email you will find: \n
                 Check-in link: ${verificationURL}
                 Reservation's code: ${uuid}
-                Reservation's resume:\n${JSON.stringify(createdReservation, null, 2)}
+    
                 HOW TO CHECK-IN: 
                 access the link and send your reservation code 
+                
                 IMPORTANT:
                 THIS EMAIL WAS SENT TO ALL THE PASSENGERS FROM THE RESERVATION, AT LEAST ONE PASSENGER MUST DO THE CHECK-IN.
-                YOU HAVE TO CHECK-IN TO GUARANTEE YOU FLIGHT `
+                YOU HAVE TO CHECK-IN TO GUARANTEE YOUR SPACE(S) IN THE FLIGHT `
                 const emailsAddress = new Set<string>();
 
                 passengers.forEach((passenger: { email: string; }) =>{
                     emailsAddress.add(passenger.email)
                 })
                 emailsAddress.forEach(mail=>{
-                    this.emailService.sendEmail(mail,"RESERVATION RESUME CHECK-IN", message)
+                    this.emailService.sendEmail(mail,"RESERVATION IMPORTANT RESUME", message)
                 })
 
                 return res.status(201).send({

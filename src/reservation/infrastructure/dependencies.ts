@@ -34,4 +34,4 @@ export const updateReservationController = new UpdateReservationController(updat
 
 
 export const checkInReservationUseCase = new CheckInReservationUseCase(mysqlReservationRepository)
-export const checkInReservationController = new CheckInReservationController(checkInReservationUseCase)
+export const checkInReservationController = new CheckInReservationController(checkInReservationUseCase, emailService)

@@ -63,8 +63,6 @@ export class MysqlReservationRepository implements ReservationRepository{
             const [results]:any = await query(sql,params)
             if (results){
                 let result = results[0]
-                console.log(result)
-
                 return new Reservation(result.uuid, result.flight_type, result.luggage_type, result.departure_flight_uuid,
                     result.departure_seats,JSON.parse(result.passengers) ,null,result.checkin_at,result.return_flight_uuid, result.return_seats)
             }

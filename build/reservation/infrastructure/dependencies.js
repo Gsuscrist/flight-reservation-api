@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateReservationController = exports.updateReservationUseCase = exports.getReservationController = exports.getReservationUseCase = exports.deleteReservationController = exports.deleteReservationUseCase = exports.createReservationController = exports.emailService = exports.generateUuid = exports.createReservationUseCase = exports.mysqlReservationRepository = void 0;
+exports.checkInReservationController = exports.checkInReservationUseCase = exports.updateReservationController = exports.updateReservationUseCase = exports.getReservationController = exports.getReservationUseCase = exports.deleteReservationController = exports.deleteReservationUseCase = exports.createReservationController = exports.emailService = exports.generateUuid = exports.createReservationUseCase = exports.mysqlReservationRepository = void 0;
 const mysqlReservationRepository_1 = require("./mysqlReservationRepository");
 const createReservationUseCase_1 = require("../application/useCase/createReservationUseCase");
 const generateUuidReservationUseCase_1 = require("../application/useCase/generateUuidReservationUseCase");
@@ -12,6 +12,8 @@ const getReservationController_1 = require("./controllers/getReservationControll
 const updateReservationUseCase_1 = require("../application/useCase/updateReservationUseCase");
 const updateReservationController_1 = require("./controllers/updateReservationController");
 const emailService_1 = require("./services/emailService");
+const checkInReservationUseCase_1 = require("../application/useCase/checkInReservationUseCase");
+const checkInReservationController_1 = require("./controllers/checkInReservationController");
 exports.mysqlReservationRepository = new mysqlReservationRepository_1.MysqlReservationRepository();
 exports.createReservationUseCase = new createReservationUseCase_1.CreateReservationUseCase(exports.mysqlReservationRepository);
 exports.generateUuid = new generateUuidReservationUseCase_1.GenerateUuidReservationUseCase(exports.mysqlReservationRepository);
@@ -23,3 +25,5 @@ exports.getReservationUseCase = new getReservationUseCase_1.GetReservationUseCas
 exports.getReservationController = new getReservationController_1.GetReservationController(exports.getReservationUseCase);
 exports.updateReservationUseCase = new updateReservationUseCase_1.UpdateReservationUseCase(exports.mysqlReservationRepository);
 exports.updateReservationController = new updateReservationController_1.UpdateReservationController(exports.updateReservationUseCase);
+exports.checkInReservationUseCase = new checkInReservationUseCase_1.CheckInReservationUseCase(exports.mysqlReservationRepository);
+exports.checkInReservationController = new checkInReservationController_1.CheckInReservationController(exports.checkInReservationUseCase, exports.emailService);

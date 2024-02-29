@@ -11,3 +11,4 @@ exports.reservationRoute.get("/:uuid", dependencies_1.getReservationController.r
 exports.reservationRoute.post("/", dependencies_1.createReservationController.run.bind(dependencies_1.createReservationController));
 exports.reservationRoute.put("/:uuid", dependencies_1.updateReservationController.run.bind(dependencies_1.updateReservationController));
 exports.reservationRoute.delete("/:uuid", dependencies_1.deleteReservationController.run.bind(dependencies_1.deleteReservationController));
+exports.reservationRoute.post("/check-in/flights", dependencies_1.checkInReservationController.run.bind(dependencies_1.checkInReservationController));

@@ -53,7 +53,7 @@ class MysqlReservationRepository {
                     let params = [uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, returnFlightUuid, returnSeats];
                     const [results] = yield (0, mysql_1.query)(sql, params);
                     if (results) {
-                        return new reservation_1.Reservation(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, null, returnFlightUuid, returnSeats);
+                        return new reservation_1.Reservation(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, null, null, returnFlightUuid, returnSeats);
                     }
                 }
             }
@@ -84,8 +84,7 @@ class MysqlReservationRepository {
                 const [results] = yield (0, mysql_1.query)(sql, params);
                 if (results) {
                     let result = results[0];
-                    console.log(result);
-                    return new reservation_1.Reservation(result.uuid, result.flight_type, result.luggage_type, result.departure_flight_uuid, result.departure_seats, JSON.parse(result.passengers), null, result.return_flight_uuid, result.return_seats);
+                    return new reservation_1.Reservation(result.uuid, result.flight_type, result.luggage_type, result.departure_flight_uuid, result.departure_seats, JSON.parse(result.passengers), null, result.checkin_at, result.return_flight_uuid, result.return_seats);
                 }
             }
             catch (e) {
@@ -123,6 +122,23 @@ class MysqlReservationRepository {
             }
             catch (e) {
                 console.log(e);
+            }
+        });
+    }
+    checkIn(uuid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let sql = "UPDATE reservations SET checkin_at = ? WHERE uuid = ?";
+                let date = new Date();
+                let params = [date, uuid];
+                const [results] = yield (0, mysql_1.query)(sql, params);
+                if (results) {
+                    return yield this.getByUuid(uuid);
+                }
+            }
+            catch (e) {
+                console.log(e);
+                return null;
             }
         });
     }

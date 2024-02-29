@@ -20,7 +20,7 @@ class UpdateReservationController {
             try {
                 let uuid = req.params.uuid;
                 let { flightType, luggageType, departureFlightUuid, departureSeats, passengers, returnFlightUuid, returnSeats } = req.body;
-                const reservation = new reservation_1.Reservation(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, null, returnFlightUuid, returnSeats);
+                const reservation = new reservation_1.Reservation(uuid, flightType, luggageType, departureFlightUuid, departureSeats, passengers, null, null, returnFlightUuid, returnSeats);
                 let updatedReservation = yield this.useCase.run(uuid, reservation);
                 if (updatedReservation) {
                     return res.status(200).send({
