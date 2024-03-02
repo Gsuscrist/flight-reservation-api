@@ -8,7 +8,6 @@ export class CheckInReservationController{
     }
 
     async run(req:Request, res:Response){
-        //TODO: GIVE FORMAT TO THE MESSAGE
         try {
             let {uuid} = req.body
             let checkIn  = await this.useCase.run(uuid);

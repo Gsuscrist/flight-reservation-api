@@ -25,7 +25,6 @@ export class MysqlReservationRepository implements ReservationRepository{
               let [verification2Results]:any= await query(verification2Sql,verification2Params);
               if (verification2Results.length > 0){isValid=true}else{throw new Error("flight uuid invalid")}
           }
-          //TODO: MOVE THIS VALIDATIONS TO DOMAIN LAYER
           if (returnSeats !== passengers.length || departureSeats !== passengers.length && departureSeats !== null){
               throw new Error("Please include all passangers information")
               isValid=false

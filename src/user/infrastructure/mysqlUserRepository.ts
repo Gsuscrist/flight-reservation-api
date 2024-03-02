@@ -70,9 +70,9 @@ export class MysqlUserRepository implements UserRepository{
             const sql = "SELECT * FROM users WHERE email= ? AND deleted_at IS NULL"
             const params:any[]=[credentials.email]
             const [result]:any = await query(sql,params)
-            console.log(credentials.password)
+
             if (await encryptService.compare(credentials.password, result[0].password)){
-                console.log("match")
+
                 const user = result[0]
                 const credentials=new Credentials(user.email,user.password)
 
