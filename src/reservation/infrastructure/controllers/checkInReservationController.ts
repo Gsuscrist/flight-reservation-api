@@ -8,13 +8,12 @@ export class CheckInReservationController{
     }
 
     async run(req:Request, res:Response){
-        //TODO: GIVE FORMAT TO THE MESSAGE
         try {
             let {uuid} = req.body
             let checkIn  = await this.useCase.run(uuid);
             if (checkIn){
-                const passangers = checkIn.passagers
-                console.log(passangers)
+                const passengers = checkIn.passengers
+                console.log(passengers)
                 const message= `thanks for check-in your reservation, on this email you will find: \n
                 Reservation's code: ${uuid}
                 Reservation's resume:\n${JSON.stringify(checkIn, null, 2)}
@@ -22,7 +21,7 @@ export class CheckInReservationController{
                 THIS EMAIL WAS SENT TO ALL THE PASSENGERS FROM THE RESERVATION;
                 DO NOT FORGET TO PRINT THIS EMAIL AND GIVE IT TO THE CASHIER THE FLIGHT DATE`
                 const emailsAddress = new Set<string>();
-                passangers.forEach((passenger: { email: string; }) =>{
+                passengers.forEach((passenger: { email: string; }) =>{
                     emailsAddress.add(passenger.email)
                 })
                 emailsAddress.forEach(mail=>{

@@ -17,12 +17,15 @@ class MysqlUserRepository {
     generateUuid(name) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const namePrefix = name.slice(0, 3).toLowerCase();
-                const randomNumbers = Array.from({ length: 3 }, () => Math.floor(Math.random() * 10));
-                let result = '';
-                for (let i = 0; i < 3; i++) {
-                    result += namePrefix[i] + randomNumbers[i];
-                }
+                let result;
+                do {
+                    const namePrefix = name.slice(0, 3).toLowerCase();
+                    const randomNumbers = Array.from({ length: 3 }, () => Math.floor(Math.random() * 10));
+                    result = '';
+                    for (let i = 0; i < 3; i++) {
+                        result += namePrefix[i] + randomNumbers[i];
+                    }
+                } while (yield this.getById(result));
                 return result;
             }
             catch (e) {

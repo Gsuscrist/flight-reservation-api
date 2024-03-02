@@ -19,14 +19,11 @@ const signale_1 = require("signale");
 const signale = new signale_1.Signale();
 dotenv_1.default.config();
 const config = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
     waitForConnections: true,
     connectionLimit: 10,
 };
-const pool = promise_1.default.createPool(config);
+const dbUrl = process.env.DATABASE_URL || "";
+const pool = promise_1.default.createPool(Object.assign(Object.assign({}, config), { uri: dbUrl }));
 function query(sql, params) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

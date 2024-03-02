@@ -6,16 +6,14 @@ const signale = new Signale();
 dotenv.config();
 
 const config = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
     waitForConnections: true,
     connectionLimit: 10,
 };
 
 
-const pool = mysql.createPool(config);
+const dbUrl = process.env.DATABASE_URL || "";
+
+const pool = mysql.createPool({ ...config, uri:dbUrl });
 
 export async function query(sql: string, params: any[]) {
     try {

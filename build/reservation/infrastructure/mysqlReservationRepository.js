@@ -97,7 +97,7 @@ class MysqlReservationRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let sql = "UPDATE reservations SET flight_type =?, luggage_type=?, departure_flight_uuid=?, departure_seats =?, passengers=?, return_flight_uuid=?, return_seats=? WHERE uuid=?";
-                let params = [reservation.flightType, reservation.luggageType, reservation.departureFlightUuid, reservation.departureSeats, reservation.passagers, reservation.returnFlightUuid, reservation.returnSeats, uuid];
+                let params = [reservation.flightType, reservation.luggageType, reservation.departureFlightUuid, reservation.departureSeats, reservation.passengers, reservation.returnFlightUuid, reservation.returnSeats, uuid];
                 const [results] = yield (0, mysql_1.query)(sql, params);
                 if (results) {
                     return reservation;
@@ -112,12 +112,15 @@ class MysqlReservationRepository {
     generateUuid(flightType) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const namePrefix = flightType.slice(0, 4).toLowerCase();
-                const randomNumbers = Array.from({ length: 8 }, () => Math.floor(Math.random() * 10));
-                let result = '';
-                for (let i = 0; i < 4; i++) {
-                    result += randomNumbers[i] + namePrefix[i] + randomNumbers[i + 1];
-                }
+                let result;
+                do {
+                    const namePrefix = flightType.slice(0, 4).toLowerCase();
+                    const randomNumbers = Array.from({ length: 8 }, () => Math.floor(Math.random() * 10));
+                    result = '';
+                    for (let i = 0; i < 4; i++) {
+                        result += randomNumbers[i] + namePrefix[i] + randomNumbers[i + 1];
+                    }
+                } while (yield this.getByUuid(result));
                 return result;
             }
             catch (e) {

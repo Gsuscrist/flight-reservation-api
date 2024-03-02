@@ -8,13 +8,15 @@ import {query} from "../../database/mysql";
 export class MysqlUserRepository implements UserRepository{
     async generateUuid(name: string):Promise<string|any>{
         try {
+            let result
+            do{
             const namePrefix = name.slice(0, 3).toLowerCase();
             const randomNumbers = Array.from({ length: 3 }, () =>
                 Math.floor(Math.random() * 10));
-            let result = '';
+            result = '';
             for (let i = 0; i < 3; i++) {
                 result += namePrefix[i] + randomNumbers[i];
-            }
+            }}while (await this.getById(result))
 
             return result;
         }catch (e){
@@ -68,9 +70,9 @@ export class MysqlUserRepository implements UserRepository{
             const sql = "SELECT * FROM users WHERE email= ? AND deleted_at IS NULL"
             const params:any[]=[credentials.email]
             const [result]:any = await query(sql,params)
-            console.log(credentials.password)
+
             if (await encryptService.compare(credentials.password, result[0].password)){
-                console.log("match")
+
                 const user = result[0]
                 const credentials=new Credentials(user.email,user.password)
 
