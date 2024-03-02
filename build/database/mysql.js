@@ -16,34 +16,6 @@ exports.query = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const promise_1 = __importDefault(require("mysql2/promise"));
 const signale_1 = require("signale");
-/*
-const signale = new Signale();
-dotenv.config();
-
-const config = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    waitForConnections: true,
-    connectionLimit: 10,
-};
-
-
-const pool = mysql.createPool(config);
-
-export async function query(sql: string, params: any[]) {
-    try {
-        const conn = await pool.getConnection();
-        signale.success("Conexión exitosa a la BD");
-        const result = await conn.execute(sql, params);
-        conn.release();
-        return result;
-    } catch (error) {
-        signale.error(error);
-        return null;
-    }
-}*/
 const signale = new signale_1.Signale();
 dotenv_1.default.config();
 const config = {

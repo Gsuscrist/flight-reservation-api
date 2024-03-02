@@ -6,16 +6,17 @@ import {
     getReservationController,
     updateReservationController
 } from "../dependencies";
+import {authenticateMiddleware} from "../../../middleware/authenticator";
 
 
 export const reservationRoute = express.Router()
 
-reservationRoute.get("/:uuid", getReservationController.run.bind(getReservationController))
+reservationRoute.get("/:uuid",authenticateMiddleware, getReservationController.run.bind(getReservationController))
 
-reservationRoute.post("/",createReservationController.run.bind(createReservationController))
+reservationRoute.post("/",authenticateMiddleware, createReservationController.run.bind(createReservationController))
 
-reservationRoute.put("/:uuid",updateReservationController.run.bind(updateReservationController))
+reservationRoute.put("/:uuid",authenticateMiddleware, updateReservationController.run.bind(updateReservationController))
 
-reservationRoute.delete("/:uuid",deleteReservationController.run.bind(deleteReservationController))
+reservationRoute.delete("/:uuid",authenticateMiddleware, deleteReservationController.run.bind(deleteReservationController))
 
-reservationRoute.post("/check-in/flights", checkInReservationController.run.bind(checkInReservationController))
+reservationRoute.post("/check-in/flights",authenticateMiddleware, checkInReservationController.run.bind(checkInReservationController))
