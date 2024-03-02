@@ -76,7 +76,7 @@ export class MysqlReservationRepository implements ReservationRepository{
     async update(uuid: string, reservation: Reservation): Promise<any> {
         try {
             let sql = "UPDATE reservations SET flight_type =?, luggage_type=?, departure_flight_uuid=?, departure_seats =?, passengers=?, return_flight_uuid=?, return_seats=? WHERE uuid=?"
-            let params:any[] = [reservation.flightType,reservation.luggageType,reservation.departureFlightUuid,reservation.departureSeats,reservation.passagers,reservation.returnFlightUuid,reservation.returnSeats,uuid]
+            let params:any[] = [reservation.flightType,reservation.luggageType,reservation.departureFlightUuid,reservation.departureSeats,reservation.passengers,reservation.returnFlightUuid,reservation.returnSeats,uuid]
             const [results] :any = await query(sql,params)
             if (results){
                 return reservation
@@ -90,13 +90,15 @@ export class MysqlReservationRepository implements ReservationRepository{
 
     async generateUuid(flightType: string): Promise<any> {
         try {
+            let result
+            do{
             const namePrefix = flightType.slice(0, 4).toLowerCase();
             const randomNumbers = Array.from({ length: 8 }, () =>
                 Math.floor(Math.random() * 10));
-            let result = '';
+            result = '';
             for (let i = 0; i < 4; i++) {
                 result += randomNumbers[i] + namePrefix[i] + randomNumbers[i+1];
-            }
+            }}while ( await this.getByUuid(result))
 
             return result;
         }catch (e){
