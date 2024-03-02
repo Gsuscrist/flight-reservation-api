@@ -24,7 +24,6 @@ export class CreateFlightController{
                 return res.status(201).send({
                     status:"Success",
                     data:{
-                   //TODO: add result maping or try 'createdFlight var'
                         uuid:createdFlight.uuid,
                         aeroline:createdFlight.aeroline,
                         origin:createdFlight.origin,

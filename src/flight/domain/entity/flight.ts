@@ -9,6 +9,7 @@ export class Flight{
         readonly destiny:Location,
         // TODO: ADD CAPACITY, SEATS OR SOMETHING LIKE THAT TO THE SEATS LOGIC
         // MAYBE A MATRIX OR SOMETHING
+        //!how do i do this
         readonly deletedAt:Date|null,
     ) {
     }
